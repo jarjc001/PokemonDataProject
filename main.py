@@ -1,4 +1,5 @@
 import requests
+import pokemon_pipline as pk
 
 test_url: str = "https://pokeapi.co/api/v2/pokemon/ditto"
 
@@ -42,23 +43,23 @@ if response3.status_code == 200:
     print(content3["name"])
     print(content3["stats"])
 
+ditto = pk.Pokemon(132, "ditto",
+                   [{'slot': 1, 'type': {'name': 'ground', 'url': 'https://pokeapi.co/api/v2/type/5/'}}],
+                   3, 40,
+                   {"hp": 48, "attack": 48, "defense": 48, "special-attack": 48, "special-defense": 48, "speed": 48})
 
-class Pokemon:
-    """
-    id: int - the id of the pokemon
-    name: str - name of the pokemon
-    types: tuple(str) - (main type, sub type)
-    height: float
-    weight: float
-    stats: dict(tuple(str,int)) - {(name,base_stat)} hp, attack, defense, special-attack, special-defense, speed
-    """
-    def __init__(self, ID: int, name: str, types: tuple, height: float, weight: float, stats: dict) -> None:
-        self.id = ID
-        self.name = name
-        self.types = types
-        self.height = height
-        self.weight = weight
-        self.stats = stats
+print(ditto)
 
-    def __str__(self) -> str:
-        return f""
+
+print(content3["stats"][0])
+
+test_url4: str = "https://pokeapi.co/api/v2/pokemon/6"
+response4 = requests.get(test_url4)
+if response4.status_code == 200:
+    content4: dict = response4.json()
+    print(content4["name"])
+    print(content3["types"])
+    print(content4["types"])
+
+
+print(ditto.marshal_pokemon_type_data(ditto.types))

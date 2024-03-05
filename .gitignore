@@ -1,2 +1,5 @@
 #ignore venv
 venv/
+
+#ignore db constant file
+pokemon_pipline/db_info.py

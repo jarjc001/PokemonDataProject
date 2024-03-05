@@ -43,15 +43,9 @@ if response3.status_code == 200:
     print(content3["name"])
     print(content3["stats"])
 
-ditto = pk.Pokemon(132, "ditto",
-                   [{'slot': 1, 'type': {'name': 'ground', 'url': 'https://pokeapi.co/api/v2/type/5/'}}],
-                   3, 40,
-                   {"hp": 48, "attack": 48, "defense": 48, "special-attack": 48, "special-defense": 48, "speed": 48})
-
-print(ditto)
 
 
-print(content3["stats"][0])
+#print(content3["stats"][0])
 
 test_url4: str = "https://pokeapi.co/api/v2/pokemon/6"
 response4 = requests.get(test_url4)
@@ -62,4 +56,18 @@ if response4.status_code == 200:
     print(content4["types"])
 
 
-print(ditto.marshal_pokemon_type_data(ditto.types))
+
+
+#want 'id', 'name', 'stats', 'types', 'height', 'weight'
+
+print("test for charizard")#
+
+
+
+
+content_char = content4
+print(type(content_char))
+print(content_char['types'])
+
+charizard = pk.Pokemon(content4)
+print(charizard)

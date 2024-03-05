@@ -71,3 +71,6 @@ print(content_char['types'])
 
 charizard = pk.Pokemon(content4)
 print(charizard)
+
+yo = pk.import_data_to_df(5,2)
+

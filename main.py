@@ -1,5 +1,6 @@
 import requests
 import pokemon_pipline as pk
+import pandas as pd
 
 test_url: str = "https://pokeapi.co/api/v2/pokemon/ditto"
 
@@ -72,5 +73,13 @@ print(content_char['types'])
 charizard = pk.Pokemon(content4)
 print(charizard)
 
-yo = pk.import_data_to_df(5,2)
+yo = pk.import_data_to_list(6)
+print()
 
+
+df = pd.DataFrame()
+
+df['id'] = [i.id for i in yo]
+df['name'] = [i.name for i in yo]
+df['height'] = [i.height for i in yo]
+print(df)

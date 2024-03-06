@@ -8,7 +8,7 @@ class Pokemon:
     types: tuple(str) - (main type, sub type)
     height: float
     weight: float
-    stats: dict(tuple(str,int)) - {(name,base_stat)} hp, attack, defense, special-attack, special-defense, speed
+    stats: dict(str,int) - {name:base_stat} hp, attack, defense, special-attack, special-defense, speed
     """
 
     # """

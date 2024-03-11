@@ -72,29 +72,36 @@ import pandas as pd
 #
 # charizard = pk.Pokemon(content4)
 # print(charizard)
-#
+
 
 
 # get pokemon data
+
+
 pokemon_list = pk.import_pokemon_data_to_list(7)
 print(pokemon_list)
 
 # list pokemon data into pd
 df = pk.list_pokemon_data_to_pd(pokemon_list)
 
+
+pk.insert_pokemon_data_to_db(df)
+
+
+
 print(df)
 
-# download pd to csv and parquet
-pk.data_pd_to_csv(df)
-pk.data_pd_to_parquet(df)
-
-# import pokemon types
-pokemon_types = pk.import_type_data_to_list()
-
-print(pokemon_types)
-
-# create datadb
-pk.create_db()
-pk.create_db_tables()
-
-pk.insert_types_data_to_db(pokemon_types)
+# # download pd to csv and parquet
+# pk.data_pd_to_csv(df)
+# pk.data_pd_to_parquet(df)
+#
+# # import pokemon types
+# pokemon_types = pk.import_type_data_to_list()
+#
+# print(pokemon_types)
+#
+# # create datadb
+# pk.create_db()
+# pk.create_db_tables()
+#
+# pk.insert_types_data_to_db(pokemon_types)

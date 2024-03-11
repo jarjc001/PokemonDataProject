@@ -109,7 +109,7 @@ def reset_db_table(which_table: str = "all") -> None:
 
 def insert_types_data_to_db(pokemon_type_list: List[str]) -> None:
     """
-    inserts the pokemon types into the types sql db table
+    inserts the pokemon types into the types mysql db table
     :param pokemon_type_list: list of pokemon types
     :return:
     """
@@ -122,3 +122,20 @@ def insert_types_data_to_db(pokemon_type_list: List[str]) -> None:
         df.to_sql("types", engine, if_exists="append", index=False)
     except IntegrityError:
         print("Type data already in table: Rerun insert_types_data after clearing table")
+
+
+def insert_pokemon_data_to_db(pokemon_df: pd.DataFrame) -> None:
+    """
+    inserts the pokemon data (apart from its types) into the pokemon mysql db table
+    :param pokemon_df: dataframe of pokemon data
+    """
+
+    engine = create_engine(SQL_ALCHEMY_CON_STRING)
+
+    # drops types from the database
+    df = pokemon_df.drop(columns=['type1', 'type2'])
+
+    try:
+        df.to_sql("pokemon", engine, if_exists="append", index=False)
+    except IntegrityError:
+        print("pokemon data already in table: Rerun insert_pokemon_data_to_db after clearing table")

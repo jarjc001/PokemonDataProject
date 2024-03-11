@@ -42,9 +42,9 @@ def list_pokemon_data_to_pd(pokemon_list: list) -> pd.DataFrame:
     :return: pd.dataframe
     """
     df = pd.DataFrame(
-        columns=['id', 'name', 'type1', 'type2', 'height', 'weight', 'hp', 'attack', 'defense', 'special-attack',
-                 'special-defense', 'speed'])
-    df['id'] = [i.id for i in pokemon_list]
+        columns=['pokemonId', 'name', 'type1', 'type2', 'height', 'weight', 'hp', 'attack', 'defense', 'special_attack',
+                 'special_defense', 'speed'])
+    df['pokemonId'] = [i.id for i in pokemon_list]
     df['name'] = [i.name for i in pokemon_list]
     df['type1'] = [i.types[0] for i in pokemon_list]
     df['type2'] = [i.types[1] for i in pokemon_list]
@@ -53,8 +53,8 @@ def list_pokemon_data_to_pd(pokemon_list: list) -> pd.DataFrame:
     df['hp'] = [i.stats['hp'] for i in pokemon_list]
     df['attack'] = [i.stats['attack'] for i in pokemon_list]
     df['defense'] = [i.stats['defense'] for i in pokemon_list]
-    df['special-attack'] = [i.stats['special-attack'] for i in pokemon_list]
-    df['special-defense'] = [i.stats['special-defense'] for i in pokemon_list]
+    df['special_attack'] = [i.stats['special-attack'] for i in pokemon_list]
+    df['special_defense'] = [i.stats['special-defense'] for i in pokemon_list]
     df['speed'] = [i.stats['speed'] for i in pokemon_list]
 
     return df

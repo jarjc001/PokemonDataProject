@@ -73,13 +73,16 @@ print(content_char['types'])
 charizard = pk.Pokemon(content4)
 print(charizard)
 
-yo = pk.import_data_to_list(6)
+yo = pk.import_data_to_list(7)
 print()
 
 
-df = pd.DataFrame()
+df = pk.list_data_to_pd(yo)
 
-df['id'] = [i.id for i in yo]
-df['name'] = [i.name for i in yo]
-df['height'] = [i.height for i in yo]
+# df['id'] = [i.id for i in yo]
+# df['name'] = [i.name for i in yo]
+# df['height'] = [i.height for i in yo]
 print(df)
+
+pk.data_pd_to_csv(df)
+pk.data_pd_to_Parquet(df)

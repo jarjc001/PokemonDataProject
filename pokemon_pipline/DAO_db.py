@@ -1,5 +1,3 @@
-from sqlalchemy.exc import IntegrityError
-
 from .db_info import *
 from .db_queries import *
 
@@ -7,6 +5,7 @@ from typing import List
 import pandas as pd
 import mysql.connector
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import IntegrityError
 
 
 # sql alemy
@@ -87,26 +86,28 @@ def reset_db_table(which_table: str = "all") -> None:
     connection = create_db_connection()
     cursor = connection.cursor()
 
-    #need switch block
-
-    if which_table == "all":
-        create_db_tables()
-    elif which_table == "types":
-        pass
-
-
-    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
-    cursor.execute(CREATE_TABLE_TYPES_1)
-    cursor.execute(CREATE_TABLE_POKEMON_1)
-    cursor.execute(CREATE_TABLE_TYPES_2)
-    cursor.execute(CREATE_TABLE_POKEMON_2)
-    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
+    match which_table:
+        case "all":
+            create_db_tables()
+        case "types":
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+            cursor.execute(CREATE_TABLE_TYPES_1)
+            cursor.execute(CREATE_TABLE_POKEMON_1)
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
+        case "pokemon":
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+            cursor.execute(CREATE_TABLE_TYPES_2)
+            cursor.execute(CREATE_TABLE_POKEMON_2)
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
+        case "many":
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+            cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
 
     connection.close()
     cursor.close()
 
 
-def insert_types_data(pokemon_type_list: List[str]) -> None:
+def insert_types_data_to_db(pokemon_type_list: List[str]) -> None:
     """
     inserts the pokemon types into the types sql db table
     :param pokemon_type_list: list of pokemon types
@@ -120,15 +121,4 @@ def insert_types_data(pokemon_type_list: List[str]) -> None:
     try:
         df.to_sql("types", engine, if_exists="append", index=False)
     except IntegrityError:
-        with engine.connect() as conn:
-
-            truncate_statement = text(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
-            conn.execute(truncate_statement)
-            truncate_statement = text(CREATE_TABLE_TYPES_1)
-            conn.execute(truncate_statement)
-            truncate_statement = text(CREATE_TABLE_TYPES_2)
-            conn.execute(truncate_statement)
-            truncate_statement = text(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
-            conn.execute(truncate_statement)
-
-        insert_types_data(pokemon_type_list)
+        print("Type data already in table: Rerun insert_types_data after clearing table")

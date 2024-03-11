@@ -29,7 +29,7 @@ def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int
                 i_json = response.json()
                 i_pokemon = Pokemon(i_json)
                 pokemon_list.append(i_pokemon)
-    except IndexError as e:
+    except IndexError:
         print("Input correct first and last indexes")
     finally:
         return pokemon_list

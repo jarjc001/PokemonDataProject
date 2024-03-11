@@ -88,7 +88,7 @@ import pandas as pd
 # pk.data_pd_to_parquet(df)
 
 
-
+#
 types = pk.import_type_data_to_list()
 df = pd.DataFrame(types)
 #print(df)
@@ -98,5 +98,5 @@ df = pd.DataFrame(types)
 
 
 types = pk.import_type_data_to_list()
-df = pd.DataFrame(types)
-pk.insert_types_data(types)
+
+pk.insert_types_data_to_db(types)

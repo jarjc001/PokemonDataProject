@@ -57,8 +57,6 @@ CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2: str = \
         CONSTRAINT fk_pokemontypes_pokemon
             foreign key (pokemonId)
             references pokemon(pokemonId)
-            ON DELETE CASCADE 
-            ON UPDATE CASCADE
         );
     """
 

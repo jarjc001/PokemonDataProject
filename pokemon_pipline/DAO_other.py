@@ -78,8 +78,6 @@ def import_type_data_to_list() -> list:
             type_list.append(i_type)
         else:
             break
-        if i == 3:
-            break
 
     return type_list
 

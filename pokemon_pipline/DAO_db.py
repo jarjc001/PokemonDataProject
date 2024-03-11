@@ -58,11 +58,11 @@ def create_db_tables() -> None:
     connection = create_db_connection()
     cursor = connection.cursor()
 
-    cursor.execute(CREATE_TABLE_TYPES_1)
-    cursor.execute(CREATE_TABLE_TYPES_2)
-    cursor.execute(CREATE_TABLE_POKEMON_1)
-    cursor.execute(CREATE_TABLE_POKEMON_2)
     cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+    cursor.execute(CREATE_TABLE_TYPES_1)
+    cursor.execute(CREATE_TABLE_POKEMON_1)
+    cursor.execute(CREATE_TABLE_TYPES_2)
+    cursor.execute(CREATE_TABLE_POKEMON_2)
     cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
 
     connection.close()

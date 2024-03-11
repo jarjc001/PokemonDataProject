@@ -87,6 +87,5 @@ import pandas as pd
 # pk.data_pd_to_csv(df)
 # pk.data_pd_to_parquet(df)
 
-pk.create_db()
 
 

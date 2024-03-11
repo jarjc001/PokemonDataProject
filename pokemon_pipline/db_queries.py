@@ -3,25 +3,25 @@ DB_NAME: str = "pokemondata"
 CREATE_DB_1: str = f"DROP DATABASE IF exists {DB_NAME};"
 CREATE_DB_2: str = f"CREATE DATABASE {DB_NAME};"
 
-CREATE_TABLE_TYPES_1: str =\
+CREATE_TABLE_TYPES_1: str = \
     """ 
         Drop Table if exists types
     """
 
-CREATE_TABLE_TYPES_2: str =\
+CREATE_TABLE_TYPES_2: str = \
     """
         CREATE TABLE types (
             typeId TINYINT PRIMARY KEY,
-            pokemonType VARCHAR(10) NOT NULL
+            pokemonType VARCHAR(9) NOT NULL
         );
     """
 
-CREATE_TABLE_POKEMON_1: str =\
+CREATE_TABLE_POKEMON_1: str = \
     """
         DROP TABLE IF EXISTS pokemon;
     """
 
-CREATE_TABLE_POKEMON_2: str =\
+CREATE_TABLE_POKEMON_2: str = \
     """
         CREATE TABLE pokemon(
             pokemonId SMALLINT PRIMARY KEY,
@@ -37,13 +37,12 @@ CREATE_TABLE_POKEMON_2: str =\
         );
     """
 
-
-CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1: str =\
+CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1: str = \
     """
         DROP TABLE IF EXISTS pokemontypes;
     """
 
-CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2: str =\
+CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2: str = \
     """
         CREATE TABLE pokemontypes(
             pokemonId smallint,

@@ -5,14 +5,14 @@ CREATE_DB_2: str = f"CREATE DATABASE {DB_NAME};"
 
 CREATE_TABLE_TYPES_1: str = \
     """ 
-        Drop Table if exists types
+        Drop Table if exists types;
     """
 
 CREATE_TABLE_TYPES_2: str = \
     """
         CREATE TABLE types (
             typeId TINYINT PRIMARY KEY,
-            pokemonType VARCHAR(9) NOT NULL
+            pokemonType VARCHAR(8) NOT NULL
         );
     """
 
@@ -51,9 +51,15 @@ CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2: str = \
             PRIMARY KEY(pokemonId,typeId),
         CONSTRAINT fk_pokemonTypeData_types
             foreign key (typeId)
-            references types(typeId),
+            references types(typeId) 
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         CONSTRAINT fk_pokemontypes_pokemon
             foreign key (pokemonId)
             references pokemon(pokemonId)
+            ON DELETE CASCADE 
+            ON UPDATE CASCADE
         );
     """
+
+

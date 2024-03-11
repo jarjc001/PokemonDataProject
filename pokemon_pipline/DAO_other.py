@@ -1,17 +1,19 @@
 from .Pokemon import Pokemon
+
 import requests
 import pandas as pd
 
 # the base url that you add the id to get each pokemon
-base_url: str = "https://pokeapi.co/api/v2/pokemon/"
+pokemon_base_url: str = "https://pokeapi.co/api/v2/pokemon/"
+type_base_url: str = "https://pokeapi.co/api/v2/type/"
 
 # last index of Pokédex
 last_pokemon: int = 4  # 1025
 
 
-def import_data_to_list(last_index: int = last_pokemon, first_index: int = 1) -> list:
+def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int = 1) -> list:
     """
-    Import the data from api requests into a list,
+    Import the pokemon data from api requests into a list,
     no 0 index for pokemon API
     :param first_index: first pokemon to add
     :param last_index: last pokemon to add
@@ -21,7 +23,7 @@ def import_data_to_list(last_index: int = last_pokemon, first_index: int = 1) ->
     pokemon_list: list = []
     try:
         for i in range(first_index, last_index + 1):
-            i_url: str = base_url + str(i)
+            i_url: str = pokemon_base_url + str(i)
             response = requests.get(i_url)
             if response.status_code == 200:
                 i_json = response.json()
@@ -33,7 +35,7 @@ def import_data_to_list(last_index: int = last_pokemon, first_index: int = 1) ->
         return pokemon_list
 
 
-def list_data_to_pd(pokemon_list: list) -> pd.DataFrame:
+def list_pokemon_data_to_pd(pokemon_list: list) -> pd.DataFrame:
     """
     Transfers a list of pokemon data into a pd.dataframe
     :param pokemon_list: list created by import_data_to_list()
@@ -56,6 +58,30 @@ def list_data_to_pd(pokemon_list: list) -> pd.DataFrame:
     df['speed'] = [i.stats['speed'] for i in pokemon_list]
 
     return df
+
+
+def import_type_data_to_list() -> list:
+    """
+    Import the pokemon type list from api requests into a list,
+    :return: list of pokemon types
+    """
+    type_list = list()
+    i: int = 0
+
+    while True:
+        i = i + 1
+        i_url = type_base_url + str(i)
+        response = requests.get(i_url)
+        if response.status_code == 200:
+            i_json = response.json()
+            i_type: str = i_json["name"]
+            type_list.append(i_type)
+        else:
+            break
+        if i == 3:
+            break
+
+    return type_list
 
 
 def data_pd_to_csv(pokemon_df: pd.DataFrame) -> None:

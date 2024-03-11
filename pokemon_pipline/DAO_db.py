@@ -1,8 +1,12 @@
-# from .Pokemon import Pokemon
-from db_info import *
-from db_queries import *
+from sqlalchemy.exc import IntegrityError
+
+from .db_info import *
+from .db_queries import *
+
+from typing import List
 import pandas as pd
 import mysql.connector
+from sqlalchemy import create_engine, text
 
 
 # sql alemy
@@ -53,8 +57,9 @@ def create_db_connection() -> mysql.connector:
 
 def create_db_tables() -> None:
     """
-    Creates the tables for the mysql db
+    Creates all tables for the mysql db
     """
+
     connection = create_db_connection()
     cursor = connection.cursor()
 
@@ -69,4 +74,61 @@ def create_db_tables() -> None:
     cursor.close()
 
 
+def reset_db_table(which_table: str = "all") -> None:
+    """
+    resets the tables of the db
+    -"all" - all the tables
+    -"types" - reset types and many-many
+    -"pokemon" - resets pokemon and many-many
+    -"many", resets many-many
+    :param which_table: "all","types","pokemon","many"
+    """
 
+    connection = create_db_connection()
+    cursor = connection.cursor()
+
+    #need switch block
+
+    if which_table == "all":
+        create_db_tables()
+    elif which_table == "types":
+        pass
+
+
+    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+    cursor.execute(CREATE_TABLE_TYPES_1)
+    cursor.execute(CREATE_TABLE_POKEMON_1)
+    cursor.execute(CREATE_TABLE_TYPES_2)
+    cursor.execute(CREATE_TABLE_POKEMON_2)
+    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
+
+    connection.close()
+    cursor.close()
+
+
+def insert_types_data(pokemon_type_list: List[str]) -> None:
+    """
+    inserts the pokemon types into the types sql db table
+    :param pokemon_type_list: list of pokemon types
+    :return:
+    """
+    engine = create_engine(SQL_ALCHEMY_CON_STRING)
+
+    df = pd.DataFrame(pokemon_type_list, columns=["pokemonType"])
+    df["typeID"] = [i for i in range(len(pokemon_type_list))]
+
+    try:
+        df.to_sql("types", engine, if_exists="append", index=False)
+    except IntegrityError:
+        with engine.connect() as conn:
+
+            truncate_statement = text(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+            conn.execute(truncate_statement)
+            truncate_statement = text(CREATE_TABLE_TYPES_1)
+            conn.execute(truncate_statement)
+            truncate_statement = text(CREATE_TABLE_TYPES_2)
+            conn.execute(truncate_statement)
+            truncate_statement = text(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
+            conn.execute(truncate_statement)
+
+        insert_types_data(pokemon_type_list)

@@ -89,3 +89,14 @@ import pandas as pd
 
 
 
+types = pk.import_type_data_to_list()
+df = pd.DataFrame(types)
+#print(df)
+
+# pk.create_db()
+# pk.create_db_tables()
+
+
+types = pk.import_type_data_to_list()
+df = pd.DataFrame(types)
+pk.insert_types_data(types)

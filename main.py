@@ -85,4 +85,4 @@ df = pk.list_data_to_pd(yo)
 print(df)
 
 pk.data_pd_to_csv(df)
-pk.data_pd_to_Parquet(df)
+pk.data_pd_to_parquet(df)

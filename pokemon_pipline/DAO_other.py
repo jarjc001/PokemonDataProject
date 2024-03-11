@@ -66,7 +66,7 @@ def data_pd_to_csv(pokemon_df: pd.DataFrame) -> None:
     pokemon_df.to_csv('data_export/pokemon_csv.csv', index=False)
 
 
-def data_pd_to_Parquet(pokemon_df: pd.DataFrame) -> None:
+def data_pd_to_parquet(pokemon_df: pd.DataFrame) -> None:
     """
     dataframe into parquet
     :param pokemon_df:

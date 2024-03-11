@@ -1,6 +1,6 @@
-from .Pokemon import Pokemon
-from .db_info import *
-from .db_queries import *
+# from .Pokemon import Pokemon
+from db_info import *
+from db_queries import *
 import pandas as pd
 import mysql.connector
 
@@ -25,11 +25,12 @@ def create_db() -> None:
         user=DB_USERNAME,
         password=DB_PASSWORD,
         host=DB_HOST,
-        ssl_disabled=True
+        auth_plugin='mysql_native_password'
     )
 
     cursor = connection.cursor()
-    cursor.execute(CREATE_DB)
+    cursor.execute(CREATE_DB_1)
+    cursor.execute(CREATE_DB_2)
     connection.close()
     cursor.close()
 
@@ -44,7 +45,7 @@ def create_db_connection() -> mysql.connector:
         password=DB_PASSWORD,
         host=DB_HOST,
         database=DB_NAME,
-        ssl_disabled=True
+        auth_plugin='mysql_native_password'
     )
 
     return connection
@@ -57,9 +58,15 @@ def create_db_tables() -> None:
     connection = create_db_connection()
     cursor = connection.cursor()
 
-    cursor.execute(CREATE_TABLE_TYPES)
-    cursor.execute(CREATE_TABLE_POKEMON)
-    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY)
+    cursor.execute(CREATE_TABLE_TYPES_1)
+    cursor.execute(CREATE_TABLE_TYPES_2)
+    cursor.execute(CREATE_TABLE_POKEMON_1)
+    cursor.execute(CREATE_TABLE_POKEMON_2)
+    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_1)
+    cursor.execute(CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2)
 
     connection.close()
     cursor.close()
+
+
+

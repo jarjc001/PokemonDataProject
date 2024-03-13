@@ -82,6 +82,17 @@ def import_type_data_to_list() -> list:
     return type_list
 
 
+def list_types_data_to_pd(pokemon_type_list: list) -> pd.DataFrame:
+    """
+    Transfers a list of pokemon types into a pd.dataframe, with their typeID
+    :param pokemon_type_list: list of pokemon types
+    :return: pd.dataframe
+    """
+    df = pd.DataFrame(pokemon_type_list, columns=["pokemonType"])
+    df["typeID"] = [i for i in range(len(pokemon_type_list))]
+    return df
+
+
 def data_pd_to_csv(pokemon_df: pd.DataFrame) -> None:
     """
     dataframe into csv

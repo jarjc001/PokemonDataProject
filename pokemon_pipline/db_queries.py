@@ -60,4 +60,10 @@ CREATE_TABLE_POKEMON_TYPES_MANY_TO_MANY_2: str = \
         );
     """
 
+INSERT_TABLE_POKEMON_TYPE_SINGLE_LINE: str = \
+    """
+        INSERT INTO pokemontypes (pokemonId, typeId)
+        VALUES (%s,%s)
+    """
+
 

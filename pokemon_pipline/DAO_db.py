@@ -107,19 +107,15 @@ def reset_db_table(which_table: str = "all") -> None:
     cursor.close()
 
 
-def insert_types_data_to_db(pokemon_type_list: List[str]) -> None:
+def insert_types_data_to_db(type_df: pd.DataFrame) -> None:
     """
     inserts the pokemon types into the types mysql db table
-    :param pokemon_type_list: list of pokemon types
-    :return:
+    :param type_df: df of pokemon types
     """
     engine = create_engine(SQL_ALCHEMY_CON_STRING)
 
-    df = pd.DataFrame(pokemon_type_list, columns=["pokemonType"])
-    df["typeID"] = [i for i in range(len(pokemon_type_list))]
-
     try:
-        df.to_sql("types", engine, if_exists="append", index=False)
+        type_df.to_sql("types", engine, if_exists="append", index=False)
     except IntegrityError:
         print("Type data already in table: Rerun insert_types_data after clearing table")
 
@@ -139,3 +135,35 @@ def insert_pokemon_data_to_db(pokemon_df: pd.DataFrame) -> None:
         df.to_sql("pokemon", engine, if_exists="append", index=False)
     except IntegrityError:
         print("pokemon data already in table: Rerun insert_pokemon_data_to_db after clearing table")
+
+
+def insert_many_many_data_to_db(pokemon_df: pd.DataFrame, type_df: pd.DataFrame) -> None:
+    """
+    Inserts the pokemonId and TypeId for each pokemon into the pokemontypes many-to-many table
+    :param pokemon_df: df of pokemon data
+    :param type_df: df of type data
+    """
+    connection = create_db_connection()
+    cursor = connection.cursor()
+
+    last_pokemon: int = max(pokemon_df["pokemonId"])
+
+    # loop through 1 - pokemon last,
+
+    for i in range(0, last_pokemon):
+        pokemon_id: int = int(pokemon_df["pokemonId"][i])
+
+        pokemon_types: tuple = (pokemon_df["type1"][i], pokemon_df["type2"][i])
+
+        for p_type in pokemon_types:
+            if p_type is None:
+                continue
+            type_id = int(type_df.loc[type_df["pokemonType"] == p_type]["typeID"].values.item())
+
+            input_tuple = (pokemon_id, type_id)  #
+
+            cursor.execute(INSERT_TABLE_POKEMON_TYPE_SINGLE_LINE, input_tuple)
+            connection.commit()
+
+    connection.close()
+    cursor.close()

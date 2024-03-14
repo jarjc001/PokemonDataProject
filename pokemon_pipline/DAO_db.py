@@ -150,20 +150,24 @@ def insert_many_many_data_to_db(pokemon_df: pd.DataFrame, type_df: pd.DataFrame)
 
     # loop through 1 - pokemon last,
 
-    for i in range(0, last_pokemon):
-        pokemon_id: int = int(pokemon_df["pokemonId"][i])
+    try:
 
-        pokemon_types: tuple = (pokemon_df["type1"][i], pokemon_df["type2"][i])
+        for i in range(0, last_pokemon):
+            pokemon_id: int = int(pokemon_df["pokemonId"][i])
 
-        for p_type in pokemon_types:
-            if p_type is None:
-                continue
-            type_id = int(type_df.loc[type_df["pokemonType"] == p_type]["typeID"].values.item())
+            pokemon_types: tuple = (pokemon_df["type1"][i], pokemon_df["type2"][i])
 
-            input_tuple = (pokemon_id, type_id)  #
+            for p_type in pokemon_types:
+                if p_type is None:
+                    continue
+                type_id = int(type_df.loc[type_df["pokemonType"] == p_type]["typeID"].values.item())
 
-            cursor.execute(INSERT_TABLE_POKEMON_TYPE_SINGLE_LINE, input_tuple)
-            connection.commit()
+                input_tuple = (pokemon_id, type_id)  #
+
+                cursor.execute(INSERT_TABLE_POKEMON_TYPE_SINGLE_LINE, input_tuple)
+                connection.commit()
+    except IntegrityError:
+        print("many to many data already in table: Rerun insert_many_many_data_to_db after clearing table")
 
     connection.close()
     cursor.close()

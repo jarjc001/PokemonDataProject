@@ -3,7 +3,7 @@ from .Pokemon import Pokemon
 import requests
 import pandas as pd
 
-# the base url that you add the id to get each pokemon
+# the base url that you add the id to get each pokemon and type
 pokemon_base_url: str = "https://pokeapi.co/api/v2/pokemon/"
 type_base_url: str = "https://pokeapi.co/api/v2/type/"
 
@@ -11,10 +11,11 @@ type_base_url: str = "https://pokeapi.co/api/v2/type/"
 last_pokemon: int = 4  # 1025
 
 
-def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int = 1) -> list:
+def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int = 1, url=pokemon_base_url) -> list:
     """
     Import the pokemon data from api requests into a list,
     no 0 index for pokemon API
+    :param url: The api url
     :param first_index: first pokemon to add
     :param last_index: last pokemon to add
     :return: list of pokemon data
@@ -23,7 +24,7 @@ def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int
     pokemon_list: list = []
     try:
         for i in range(first_index, last_index + 1):
-            i_url: str = pokemon_base_url + str(i)
+            i_url: str = url + str(i)
             response = requests.get(i_url)
             if response.status_code == 200:
                 i_json = response.json()
@@ -60,7 +61,7 @@ def list_pokemon_data_to_pd(pokemon_list: list) -> pd.DataFrame:
     return df
 
 
-def import_type_data_to_list() -> list:
+def import_type_data_to_list(url= type_base_url) -> list:
     """
     Import the pokemon type list from api requests into a list,
     :return: list of pokemon types
@@ -70,7 +71,7 @@ def import_type_data_to_list() -> list:
 
     while True:
         i = i + 1
-        i_url = type_base_url + str(i)
+        i_url = url + str(i)
         response = requests.get(i_url)
         if response.status_code == 200:
             i_json = response.json()

@@ -42,6 +42,7 @@ from pokemon;
 
 
 -- w/h based on type
+-- avg w/h for each type
 -- can do scatter or 2 bar charts
 with cte as(
 	SELECT t.pokemonType, pt.pokemonId
@@ -49,10 +50,28 @@ with cte as(
 	join pokemontypes pt
 	on t.typeId = pt.typeId
     )
-select ROUND(avg(p.height),2) mean_height, ROUND(avg(p.weight),2) mean_weight, c.pokemonType
+select ROUND(avg(p.height),2) mean_height, ROUND(STD(p.height),2) sd_height,
+ROUND(avg(p.weight),2) mean_weight, ROUND(STD(p.weight),2) sd_weight,
+c.pokemonType
 from pokemon p
 join cte c
 on p.pokemonId = c.pokemonId
 group by c.pokemonType
 order by mean_height Desc, mean_weight Desc;
+
+-- w and h for a certian type
+-- either do the ones with the greatest number of pokemon
+-- or do ones with largest and smallest sd
+with cte as(
+	SELECT t.pokemonType, pt.pokemonId
+	FROM types t
+	join pokemontypes pt
+	on t.typeId = pt.typeId
+    )
+select p.height , p.weight, c.pokemonType
+from pokemon p
+join cte c
+on p.pokemonId = c.pokemonId
+where  c.pokemonType = "fire"
+order by p.height Desc,  p.weight Desc;
 

@@ -26,6 +26,7 @@ class Pokemon:
     """
     Create a Pokemon object from a JSON Get request
     """
+
     def __init__(self, json_request: dict) -> None:
         self.id = json_request['id']
         self.name = json_request['name']

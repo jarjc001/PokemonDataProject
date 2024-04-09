@@ -2,7 +2,7 @@
 venv/
 
 #ignore db constant file
-pokemon_pipline/db_info.py
+#pokemon_pipline/db_info.py
 
 #ignore data_export 
 data_export/

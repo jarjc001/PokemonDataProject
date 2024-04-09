@@ -8,7 +8,7 @@ pokemon_base_url: str = "https://pokeapi.co/api/v2/pokemon/"
 type_base_url: str = "https://pokeapi.co/api/v2/type/"
 
 # last index of Pokédex
-last_pokemon: int = 4  # 1025
+last_pokemon: int = 1025  # 1025
 
 
 def import_pokemon_data_to_list(last_index: int = last_pokemon, first_index: int = 1, url=pokemon_base_url) -> list:
